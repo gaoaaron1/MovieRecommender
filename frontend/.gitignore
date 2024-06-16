@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+../backend/artifacts/movie_list.pkl
+
+../backend/artifacts/similarity.pkl

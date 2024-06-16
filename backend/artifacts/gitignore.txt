@@ -1,6 +1,0 @@
-# Ignore pkl files
-*.pkl
-
-
-movie_list.pkl
-similarity.pkl
