@@ -1,4 +1,45 @@
-<script setup>
+<script>
+import api from './api';
+import MovieSelector from './components/MovieSelector.vue';
+import MovieCard from './components/MovieCard.vue';
+
+
+export default {
+  name: 'App',
+  components: {
+    MovieSelector,
+    MovieCard,
+  },
+  data() {
+    return {
+      movies: [],
+      recommendations: [],
+    };
+  },
+  methods: {
+    async fetchMovies() {
+      try {
+        const response = await api.fetchMovies();
+        this.movies = response.data;
+      } catch (error) {
+        console.error('Error fetching movies:', error);
+      }
+    },
+    async getRecommendations(movieTitle) {
+      try {
+        const response = await api.getRecommendations(movieTitle);
+        this.recommendations = response.data;
+      } catch (error) {
+        console.error('Error getting recommendations:', error);
+      }
+    },
+  },
+  created() {
+    this.fetchMovies();
+  },
+};
+
+
 import { ref, onMounted } from 'vue'
 const transcript = ref('')
 const isRecording = ref(false)
@@ -66,6 +107,24 @@ const ToggleMic = () => {
 		<button :class="`mic`" @click="ToggleMic">Record</button>
 		<div class="transcript" v-text="transcript"></div>
 	</div>
+
+
+	
+	<header>
+		<h1>Movies Recommendation System Using Machine Learning</h1>
+	</header>
+
+	
+	<main>
+		<MovieSelector :movies="movies" @recommend="getRecommendations" />
+		<div v-if="recommendations.length" class="recommendations">
+		<MovieCard v-for="(movie, index) in recommendations" :key="index" :movie="movie" />
+		</div>
+	</main>
+	
+
+
+
 </template>
 
 <style>
