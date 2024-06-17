@@ -1,5 +1,20 @@
-import { createApp } from 'vue'
-import './style.css'
-import App from './App.vue'
+import { createApp } from 'vue';
+import { createRouter, createWebHistory } from 'vue-router';
+import App from './App.vue';
+import Home from './components/Home/Home.vue';
+import Movies from './components/Movies/Movies.vue'; 
 
-createApp(App).mount('#app')
+//Navigation routes
+const routes = [
+  { path: '/', component: Home },
+  { path: '/movies', component: Movies }
+];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes
+});
+
+createApp(App)
+  .use(router)
+  .mount('#app');
