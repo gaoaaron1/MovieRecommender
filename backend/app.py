@@ -1,10 +1,10 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 import pickle
 import requests
 
 app = Flask(__name__)
-CORS(app)  # Allow CORS for all routes
+CORS(app, resources={r"/*": {"origins": ["http://localhost:5173"]}})  # Adjust origin as needed
 
 movies = pickle.load(open('artifacts/movie_list.pkl', 'rb'))
 similarity = pickle.load(open('artifacts/similarity.pkl', 'rb'))
