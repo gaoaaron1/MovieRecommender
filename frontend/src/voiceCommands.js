@@ -3,6 +3,7 @@ import { ref } from 'vue';
 const transcript = ref('');
 const isRecording = ref(false);
 let triggerRecommendation; // Define a placeholder for the function
+let setSelectedMovie; // Define a placeholder for setting the selected movie
 
 const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const sr = new Recognition();
@@ -56,7 +57,10 @@ const CheckForCommand = (result) => {
         const movieTitle = extractMovieTitle(t);
         if (movieTitle) {
             console.log('Recommend movie:', movieTitle);
-            triggerRecommendation(movieTitle); // Call the function passed from App.vue
+            setSelectedMovie(movieTitle); // Set the selected movie in the selector
+            setTimeout(() => {
+                triggerRecommendation(movieTitle); // Call the function passed from App.vue
+            }, 100);
         } else {
             console.log('No movie title found in command.');
         }
@@ -87,9 +91,14 @@ export {
     transcript,
     isRecording,
     ToggleMic,
-    setRecommendationTrigger // Export the function to set the recommendation trigger
+    setRecommendationTrigger, // Export the function to set the recommendation trigger
+    setMovieSelector // Export the function to set the selected movie
 };
 
 function setRecommendationTrigger(func) {
     triggerRecommendation = func;
+}
+
+function setMovieSelector(func) {
+    setSelectedMovie = func;
 }

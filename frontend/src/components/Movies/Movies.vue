@@ -1,75 +1,77 @@
 <template>
     <div class="app">
-
         <button :class="`mic ${isRecording ? 'active' : ''}`" @click="toggleMic">
             {{ isRecording ? 'Stop Recording' : 'Start Recording' }}
         </button>
         <div class="transcript" v-text="transcript"></div>
     </div>
     <div class="container">
-    <header>
-      <h1>Movies Recommendation System Using Machine Learning</h1>
-    </header>
-
-    <main>
-      <MovieSelector :movies="movies" @recommend="getRecommendations" />
-      <div v-if="recommendations.length" class="recommendations">
-        <MovieCard v-for="(movie, index) in recommendations" :key="index" :movie="movie" />
-      </div>
-    </main>
-  </div>
+        <header>
+            <h1>Movies Recommendation System Using Machine Learning</h1>
+        </header>
+        <main>
+            <MovieSelector :movies="movies" :selectedMovie="selectedMovie" @recommend="getRecommendations" />
+            <div v-if="recommendations.length" class="recommendations">
+                <MovieCard v-for="(movie, index) in recommendations" :key="index" :movie="movie" />
+            </div>
+        </main>
+    </div>
 </template>
 
-
-
 <script setup>
-    import './Movies.css'; 
-    import '../../App.css'; 
+import './Movies.css'; 
+import '../../App.css'; 
 
-    import { ref, onMounted } from 'vue';
-    import api from '../../api';
-    import MovieSelector from './MovieSelector.vue';
-    import MovieCard from './MovieCard.vue';
-    import { transcript, isRecording, ToggleMic } from '../../voiceCommands';
+import { ref, onMounted } from 'vue';
+import api from '../../api';
+import MovieSelector from './MovieSelector.vue';
+import MovieCard from './MovieCard.vue';
+import { transcript, isRecording, ToggleMic, setMovieSelector } from '../../voiceCommands';
 
-    onMounted(() => {
-        // Fetch movies when component is mounted
-        fetchMovies();
-    });
+onMounted(() => {
+    // Fetch movies when component is mounted
+    fetchMovies();
+    // Set the function to update selected movie in MovieSelector
+    setMovieSelector(updateSelectedMovie);
+});
 
-    // Reactive variables
-    const movies = ref([]);
-    const recommendations = ref([]);
+// Reactive variables
+const movies = ref([]);
+const recommendations = ref([]);
+const selectedMovie = ref('');
 
-    // Methods to interact with backend
-    async function fetchMovies() {
-        try {
-            const response = await api.fetchMovies();
-            movies.value = response.data;
-        } catch (error) {
-            console.error('Error fetching movies:', error);
-        }
+// Methods to interact with backend
+async function fetchMovies() {
+    try {
+        const response = await api.fetchMovies();
+        movies.value = response.data;
+    } catch (error) {
+        console.error('Error fetching movies:', error);
     }
+}
 
-    async function getRecommendations(movieTitle) {
-        try {
-            const response = await api.getRecommendations(movieTitle);
-            recommendations.value = response.data;
-        } catch (error) {
-            console.error('Error getting recommendations:', error);
-        }
+async function getRecommendations(movieTitle) {
+    try {
+        const response = await api.getRecommendations(movieTitle);
+        recommendations.value = response.data;
+    } catch (error) {
+        console.error('Error getting recommendations:', error);
     }
+}
 
-    // Function to trigger recommendations based on movie title
-    function triggerRecommendation(movieTitle) {
-        getRecommendations(movieTitle);
-    }
+// Function to trigger recommendations based on movie title
+function triggerRecommendation(movieTitle) {
+    getRecommendations(movieTitle);
+}
 
-    // Expose toggleMic function to template
-    const toggleMic = ToggleMic;
+// Function to update selected movie
+function updateSelectedMovie(movieTitle) {
+    selectedMovie.value = movieTitle;
+}
+
+// Expose toggleMic function to template
+const toggleMic = ToggleMic;
 </script>
-
-
 
 <style>
     * {
@@ -98,10 +100,10 @@
         border-radius: 10px;
     }
 
-.container {
-  margin-top: 20px; /* Adjust margin as needed */
-  text-align: center;
-}
+    .container {
+        margin-top: 20px; /* Adjust margin as needed */
+        text-align: center;
+    }
 
     .mic.active {
         background-color: red;
