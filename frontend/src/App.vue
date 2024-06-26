@@ -1,7 +1,6 @@
 <template>
 	<div id="app">
 	  <Navbar />
-    <ChatBox />
 	  <router-view />
 	</div>
   </template>
@@ -13,7 +12,6 @@
   export default {
 	name: 'App',
 	components: {
-    ChatBox,
 	  Navbar
 	},
   };
