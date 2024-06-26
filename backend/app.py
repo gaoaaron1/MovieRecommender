@@ -1,21 +1,23 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-import pickle
-import requests
+from flask import Flask, request, jsonify   # Import necessary Flask modules
+from flask_cors import CORS, cross_origin   # Import CORS for cross-origin requests
+import pickle                              # Import pickle for loading pickled data
+import requests                            # Import requests for making HTTP requests
 
-app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": ["https://movie-recommender-frontend-alpha.vercel.app/"]}})  # Update with your frontend URL
+app = Flask(__name__)                      # Initialize Flask application
+CORS(app, resources={r"/*": {"origins": ["https://movie-recommender-frontend-alpha.vercel.app/"]}})    # Enable CORS for requests from http://localhost:5173
 
 # Load pre-trained movie data and similarity matrix
 movies = pickle.load(open('artifacts/movie_list.pkl', 'rb'))
 similarity = pickle.load(open('artifacts/similarity.pkl', 'rb'))
 
+#============================== API Routes =================================================
+
 # Function to fetch movie poster path from TMDB API
 def fetch_poster(movie_id):
-    url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key=8265bd1679663a7ea12ac168da84d2e8&language=en-US"  
-    data = requests.get(url).json()
-    poster_path = data['poster_path']
-    return f"https://image.tmdb.org/t/p/w500/{poster_path}"
+    url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key=8265bd1679663a7ea12ac168da84d2e8&language=en-US"
+    data = requests.get(url).json()       # Make GET request to TMDB API and parse JSON response
+    poster_path = data['poster_path']     # Extract poster path from API response
+    return f"https://image.tmdb.org/t/p/w500/{poster_path}"   # Construct full URL for poster image
 
 # Route to get list of movie titles 
 @app.route('/movies', methods=['GET'])
