@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "name": "voicebot-frontend",
+  "name": "movie-recommender-frontend",
   "builds": [
     {
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "build"  
+        "distDir": "dist"
       }
     }
   ],
