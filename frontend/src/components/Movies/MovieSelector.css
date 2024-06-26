@@ -1,0 +1,28 @@
+
+.container {
+  display: contents;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  justify-content: center; /* Center items vertically */
+  height: 100vh; /* Adjust as needed to center vertically within viewport */
+}
+
+.custom-select {
+  width: 300px; /* Adjust the width as per your design */
+  padding: 8px; /* Optional: Adjust padding for better appearance */
+  margin-bottom: 10px; /* Optional: Add space between select and button */
+}
+
+button {
+  padding: 10px 20px; /* Adjust padding as needed */
+  background-color: #007bff; /* Example button styling */
+  color: white; /* Example button styling */
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3; /* Example hover effect */
+}
+
