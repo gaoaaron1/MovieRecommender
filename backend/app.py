@@ -4,7 +4,7 @@ import pickle
 import requests
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": ["https://movie-recommender-frontend-alpha.vercel.app/movies"]}})  # Update with your frontend URL
+CORS(app, resources={r"/*": {"origins": ["https://movie-recommender-frontend-alpha.vercel.app/"]}})  # Update with your frontend URL
 
 # Load pre-trained movie data and similarity matrix
 movies = pickle.load(open('artifacts/movie_list.pkl', 'rb'))
