@@ -1,0 +1,28 @@
+{
+    "version": 2,
+    "name": "voicebot",
+    "builds": [
+      {
+        "src": "frontend/package.json",
+        "use": "@vercel/static-build",
+        "config": {
+          "distDir": "frontend/dist"
+        }
+      },
+      {
+        "src": "backend/**",
+        "use": "@vercel/python"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/backend/(.*)",
+        "dest": "/backend/app.py"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "frontend/$1"
+      }
+    ]
+  }
+  
