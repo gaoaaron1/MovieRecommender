@@ -7,7 +7,7 @@
   
   <script>
   import Navbar from './components/Navbar/Navbar.vue';
-  import ChatBox from './components/ChatBox.vue';
+
 
   export default {
 	name: 'App',
